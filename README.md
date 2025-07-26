@@ -129,19 +129,6 @@ dfx canister call cartorio_frontend http_request
 - [ ] Procurações digitais
 - [ ] API para terceiros
 
-## 🤝 Contribuição
-
-Este é um projeto open source. Contribuições são bem-vindas!
-
-### Como Contribuir
-1. Fork do repositório
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Abra um Pull Request
-
-## 📄 Licença
-
-MIT License - veja LICENSE.md para detalhes
 
 ## 🌐 Links
 
