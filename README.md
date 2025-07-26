@@ -1,142 +1,227 @@
-# Cartório Digital ICP - Frontend
+ProbatumICP
 
-## 🎯 Visão Geral
-Sistema frontend para cartório digital descentralizado construído no Internet Computer Protocol (ICP). Foca na modernização de serviços notariais através de tecnologia blockchain.
+🎯 Overview
 
-## 🏗️ Arquitetura ICP
+Frontend system for a decentralized digital notary built on the Internet Computer Protocol (ICP). Aims to modernize notarial services through blockchain technology.
 
-### Canisters
-- **Frontend Canister**: Interface servida diretamente da blockchain
-- **Backend Canister**: Lógica de negócios em Motoko/Rust
-- **Internet Identity**: Autenticação descentralizada
+🏗️ ICP Architecture
 
-### Vantagens do ICP
-- **Gás Reverso**: Usuários não pagam taxas
-- **Armazenamento On-Chain**: Dados permanentes na blockchain
-- **Internet Identity**: Autenticação sem senhas
-- **Web3 Nativo**: Frontend totalmente descentralizado
+Canisters
 
-## 🚀 Funcionalidades
+Frontend Canister: Interface served directly from the blockchain
 
-### ✅ MVP - Timestamping (Disponível)
-- Upload de arquivos com drag & drop
-- Geração automática de hash SHA-256
-- Registro permanente na blockchain ICP
-- Verificação de autenticidade
-- Certificados de timestamp
+Backend Canister: Business logic in Motoko/Rust
 
-### 🔄 Em Desenvolvimento
-- **Assinatura Digital**: Baseada em Internet Identity
-- **Contratos Inteligentes**: Templates automatizados
-- **Procurações Digitais**: Sistema de permissões
+Internet Identity: Decentralized authentication
 
-## 🛠️ Tecnologias
 
-### Frontend
-- **HTML5**: Estrutura semântica
-- **CSS3**: Design moderno e responsivo
-- **JavaScript ES6+**: Funcionalidades interativas
-- **Web Crypto API**: Geração de hash SHA-256
+ICP Advantages
 
-### Blockchain
-- **Internet Computer**: Plataforma blockchain
-- **Internet Identity**: Sistema de autenticação
-- **Motoko/Rust**: Linguagens para canisters
+Reverse Gas: Users don’t pay transaction fees
 
-## 📱 Interface
+On-Chain Storage: Data permanently stored on the blockchain
 
-### Design System
-- **Cores Primárias**: ICP Blue (#29abe2), Orange (#f15a24)
-- **Tipografia**: Inter, sistema fonts
-- **Componentes**: Cards, botões, formulários responsivos
-- **Animações**: Transições suaves, feedback visual
+Internet Identity: Passwordless authentication
 
-### Responsividade
-- Mobile-first approach
-- Breakpoints: 480px, 768px, 1200px
-- Touch-friendly interface
-- Acessibilidade WCAG 2.1
+Native Web3: Fully decentralized frontend
 
-## 🔐 Segurança
 
-### Criptografia
-- **Hash SHA-256**: Impressão digital dos arquivos
-- **Internet Identity**: Autenticação criptográfica
-- **Blockchain**: Imutabilidade dos registros
+🚀 Features
 
-### Privacidade
-- Arquivos não são armazenados, apenas hashes
-- Principal IDs para identificação
-- Dados criptografados end-to-end
+✅ MVP - Timestamping (Available)
 
-## 🚀 Como Usar
+File upload with drag & drop
 
-### 1. Timestamping
-1. Conecte-se com Internet Identity
-2. Faça upload do arquivo (drag & drop)
-3. Visualize o hash SHA-256 gerado
-4. Registre o timestamp na blockchain
-5. Receba certificado de autenticidade
+Automatic SHA-256 hash generation
 
-### 2. Verificação
-1. Cole o hash do documento
-2. Consulte a blockchain ICP
-3. Visualize detalhes do registro
-4. Confirme autenticidade
+Permanent registration on the ICP blockchain
 
-## 📊 Dados Técnicos
+Authenticity verification
 
-### Performance
-- **Geração de Hash**: < 1s para arquivos até 10MB
-- **Registro Blockchain**: ~3s (simulado)
-- **Verificação**: ~2s (simulado)
+Timestamp certificates
 
-### Limites
-- **Tamanho de Arquivo**: Sem limite (apenas hash é processado)
-- **Tipos Suportados**: Todos os formatos
-- **Concurrent Users**: Escalável via ICP
 
-## 🔧 Configuração Local
+🔄 In Development
 
-\`\`\`bash
-# Instalar DFX
+Digital Signature: Based on Internet Identity
+
+Smart Contracts: Automated templates
+
+Digital Powers of Attorney: Permission system
+
+
+🛠️ Technologies
+
+Frontend
+
+HTML5: Semantic structure
+
+CSS3: Modern, responsive design
+
+JavaScript ES6+: Interactive functionality
+
+Web Crypto API: SHA-256 hash generation
+
+
+Blockchain
+
+Internet Computer: Blockchain platform
+
+Internet Identity: Authentication system
+
+Motoko/Rust: Languages for canisters
+
+
+📱 Interface
+
+Design System
+
+Primary Colors: ICP Blue (#29abe2), Orange (#f15a24)
+
+Typography: Inter, system fonts
+
+Components: Cards, buttons, responsive forms
+
+Animations: Smooth transitions, visual feedback
+
+
+Responsiveness
+
+Mobile-first approach
+
+Breakpoints: 480px, 768px, 1200px
+
+Touch-friendly interface
+
+WCAG 2.1 accessibility compliance
+
+
+🔐 Security
+
+Cryptography
+
+SHA-256 Hash: File digital fingerprint
+
+Internet Identity: Cryptographic authentication
+
+Blockchain: Immutable records
+
+
+Privacy
+
+Files are not stored, only hashes
+
+Principal IDs for identification
+
+End-to-end encrypted data
+
+
+🚀 How to Use
+
+1. Timestamping
+
+1. Connect using Internet Identity
+
+
+2. Upload a file (drag & drop)
+
+
+3. View the generated SHA-256 hash
+
+
+4. Register the timestamp on the blockchain
+
+
+5. Receive authenticity certificate
+
+
+
+2. Verification
+
+1. Paste the document hash
+
+
+2. Query the ICP blockchain
+
+
+3. View registration details
+
+
+4. Confirm authenticity
+
+
+
+📊 Technical Data
+
+Performance
+
+Hash Generation: < 1s for files up to 10MB
+
+Blockchain Registration: ~3s (simulated)
+
+Verification: ~2s (simulated)
+
+
+Limits
+
+File Size: No limit (only hash is processed)
+
+Supported Formats: All file types
+
+Concurrent Users: Scalable via ICP
+
+
+🔧 Local Setup
+
+# Install DFX
 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
 
-# Iniciar replica local
+# Start local replica
 dfx start --background
 
-# Deploy dos canisters
+# Deploy canisters
 dfx deploy
 
-# Abrir frontend
-dfx canister call cartorio_frontend http_request
-\`\`\`
+# Open frontend
+dfx canister call probatum_frontend http_request
 
-## 📈 Roadmap
+📈 Roadmap
 
-### Fase 1 (MVP) ✅
-- [x] Timestamping de documentos
-- [x] Interface responsiva
-- [x] Integração Internet Identity (simulada)
+Phase 1 (MVP) ✅
 
-### Fase 2 (Q2 2024)
-- [ ] Assinatura digital real
-- [ ] Backend Motoko
-- [ ] Deploy na mainnet IC
+[x] Document timestamping
 
-### Fase 3 (Q3 2024)
-- [ ] Contratos inteligentes
-- [ ] Procurações digitais
-- [ ] API para terceiros
+[x] Responsive interface
+
+[x] Internet Identity integration (simulated)
 
 
-## 🌐 Links
+Phase 2 (Q2 2024)
 
-- **Internet Computer**: https://internetcomputer.org
-- **Internet Identity**: https://identity.ic0.app
-- **DFX SDK**: https://sdk.dfinity.org
-- **Motoko**: https://github.com/dfinity/motoko
+[ ] Real digital signature
 
----
+[ ] Backend in Motoko
 
-**Cartório Digital ICP** - Modernizando serviços notariais com tecnologia blockchain descentralizada.
+[ ] Mainnet deployment on IC
+
+
+Phase 3 (Q3 2024)
+
+[ ] Smart contracts
+
+[ ] Digital powers of attorney
+
+[ ] Third-party API
+
+
+🌐 Links
+
+Internet Computer: https://internetcomputer.org
+
+Internet Identity: https://identity.ic0.app
+
+DFX SDK: https://sdk.dfinity.org
+
+Motoko: https://github.com/dfinity/motoko
+
+
