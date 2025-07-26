@@ -1,30 +1,31 @@
-// Estado da aplicação ICP
+
+// ICP application state
 let isConnected = false
 let userPrincipal = null
 let timestamps = []
 let currentFile = null
 let currentHash = null
 
-// Simulação de dados do Internet Computer
+// Internet Computer simulated data
 const icpData = {
   canisterId: "rdmx6-jaaaa-aaaah-qdrqq-cai",
   network: "local",
   host: "http://localhost:8000",
 }
 
-// Inicialização
+// Initialization
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp()
   setupEventListeners()
   loadStoredData()
 })
 
-// Configuração inicial da aplicação
+// Initial app setup
 function initializeApp() {
-  console.log("🚀 Cartório Digital ICP inicializado")
+  console.log("🚀 Digital Notary ICP initialized")
   console.log("📦 Canister ID:", icpData.canisterId)
 
-  // Verificar se há conexão salva
+  // Check for saved connection
   const savedConnection = localStorage.getItem("icp_connection")
   if (savedConnection) {
     const connectionData = JSON.parse(savedConnection)
@@ -34,9 +35,9 @@ function initializeApp() {
   setupFileUpload()
 }
 
-// Configurar event listeners
+// Setup event listeners
 function setupEventListeners() {
-  // Navegação
+  // Navigation
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", function (e) {
       e.preventDefault()
@@ -46,20 +47,20 @@ function setupEventListeners() {
     })
   })
 
-  // Botões de conexão
+  // Connection buttons
   document.getElementById("connectBtn").addEventListener("click", connectInternetIdentity)
   document.getElementById("disconnectBtn").addEventListener("click", disconnectIdentity)
 
-  // Botões de ação
+  // Action buttons
   document.getElementById("timestampBtn").addEventListener("click", createTimestamp)
 }
 
-// Configurar upload de arquivo
+// Setup file upload
 function setupFileUpload() {
   const uploadArea = document.getElementById("uploadArea")
   const fileInput = document.getElementById("fileInput")
 
-  // Click para selecionar arquivo
+  // Click to select file
   uploadArea.addEventListener("click", () => {
     fileInput.click()
   })
@@ -91,63 +92,63 @@ function setupFileUpload() {
   })
 }
 
-// Conectar com Internet Identity (simulado)
+// Connect with Internet Identity (simulated)
 async function connectInternetIdentity() {
-  showLoading(true, "Conectando com Internet Identity...")
+  showLoading(true, "Connecting to Internet Identity...")
 
   try {
-    // Simular processo de autenticação
+    // Simulate authentication process
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Gerar Principal ID simulado
+    // Generate simulated Principal ID
     const principal = generatePrincipalId()
     simulateConnection(principal)
 
-    showMessage("success", "Conectado com sucesso ao Internet Identity!")
+    showMessage("success", "Successfully connected to Internet Identity!")
   } catch (error) {
-    showMessage("error", "Erro ao conectar com Internet Identity")
-    console.error("Erro na conexão:", error)
+    showMessage("error", "Error connecting to Internet Identity")
+    console.error("Connection error:", error)
   } finally {
     showLoading(false)
   }
 }
 
-// Simular conexão estabelecida
+// Simulate established connection
 function simulateConnection(principal) {
   isConnected = true
   userPrincipal = principal
 
-  // Atualizar UI
+  // Update UI
   document.getElementById("connectBtn").style.display = "none"
   document.getElementById("userInfo").style.display = "flex"
   document.querySelector(".principal-id").textContent = principal
 
-  // Salvar conexão
+  // Save connection
   localStorage.setItem("icp_connection", JSON.stringify({ principal, timestamp: Date.now() }))
 
-  // Habilitar funcionalidades que requerem autenticação
+  // Enable authenticated-only features
   updateAuthenticatedState()
 }
 
-// Desconectar identidade
+// Disconnect identity
 function disconnectIdentity() {
   isConnected = false
   userPrincipal = null
 
-  // Atualizar UI
+  // Update UI
   document.getElementById("connectBtn").style.display = "flex"
   document.getElementById("userInfo").style.display = "none"
 
-  // Limpar dados salvos
+  // Clear saved data
   localStorage.removeItem("icp_connection")
 
-  // Desabilitar funcionalidades
+  // Disable features
   updateAuthenticatedState()
 
-  showMessage("info", "Desconectado do Internet Identity")
+  showMessage("info", "Disconnected from Internet Identity")
 }
 
-// Atualizar estado de autenticação
+// Update authentication state
 function updateAuthenticatedState() {
   const timestampBtn = document.getElementById("timestampBtn")
   if (timestampBtn) {
@@ -155,7 +156,7 @@ function updateAuthenticatedState() {
   }
 }
 
-// Gerar Principal ID simulado
+// Generate simulated Principal ID
 function generatePrincipalId() {
   const chars = "abcdefghijklmnopqrstuvwxyz234567"
   let result = ""
@@ -166,41 +167,41 @@ function generatePrincipalId() {
   return result
 }
 
-// Manipular seleção de arquivo
+// Handle file selection
 async function handleFileSelect(file) {
   currentFile = file
 
-  // Mostrar informações do arquivo
+  // Show file info
   document.getElementById("fileName").textContent = file.name
   document.getElementById("fileSize").textContent = formatFileSize(file.size)
-  document.getElementById("fileType").textContent = file.type || "Tipo desconhecido"
+  document.getElementById("fileType").textContent = file.type || "Unknown type"
 
   document.getElementById("uploadArea").style.display = "none"
   document.getElementById("fileInfo").style.display = "flex"
 
-  // Gerar hash do arquivo
-  showLoading(true, "Gerando hash SHA-256...")
+  // Generate file hash
+  showLoading(true, "Generating SHA-256 hash...")
 
   try {
     currentHash = await generateFileHash(file)
 
-    // Mostrar hash gerado
+    // Show generated hash
     document.getElementById("hashValue").innerHTML = `<code>${currentHash}</code>`
     document.getElementById("copyHashBtn").style.display = "inline-flex"
 
-    // Habilitar botão de timestamp se conectado
+    // Enable timestamp button if connected
     updateAuthenticatedState()
 
-    showMessage("success", "Hash SHA-256 gerado com sucesso!")
+    showMessage("success", "SHA-256 hash generated successfully!")
   } catch (error) {
-    showMessage("error", "Erro ao gerar hash do arquivo")
-    console.error("Erro na geração do hash:", error)
+    showMessage("error", "Error generating file hash")
+    console.error("Hash generation error:", error)
   } finally {
     showLoading(false)
   }
 }
 
-// Gerar hash SHA-256 do arquivo
+// Generate SHA-256 file hash
 async function generateFileHash(file) {
   const arrayBuffer = await file.arrayBuffer()
   const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer)
@@ -209,7 +210,7 @@ async function generateFileHash(file) {
   return hashHex
 }
 
-// Limpar arquivo selecionado
+// Clear selected file
 function clearFile() {
   currentFile = null
   currentHash = null
@@ -217,51 +218,51 @@ function clearFile() {
   document.getElementById("uploadArea").style.display = "block"
   document.getElementById("fileInfo").style.display = "none"
   document.getElementById("hashValue").innerHTML =
-    '<span class="placeholder">Hash será gerado após selecionar arquivo</span>'
+    '<span class="placeholder">Hash will be generated after selecting a file</span>'
   document.getElementById("copyHashBtn").style.display = "none"
   document.getElementById("fileInput").value = ""
 
   updateAuthenticatedState()
 }
 
-// Copiar hash para clipboard
+// Copy hash to clipboard
 async function copyHash() {
   if (currentHash) {
     try {
       await navigator.clipboard.writeText(currentHash)
-      showMessage("success", "Hash copiado para a área de transferência!")
+      showMessage("success", "Hash copied to clipboard!")
     } catch (error) {
-      // Fallback para navegadores mais antigos
+      // Fallback for older browsers
       const textArea = document.createElement("textarea")
       textArea.value = currentHash
       document.body.appendChild(textArea)
       textArea.select()
       document.execCommand("copy")
       document.body.removeChild(textArea)
-      showMessage("success", "Hash copiado para a área de transferência!")
+      showMessage("success", "Hash copied to clipboard!")
     }
   }
 }
 
-// Criar timestamp na blockchain (simulado)
+// Create timestamp on blockchain (simulated)
 async function createTimestamp() {
   if (!isConnected) {
-    showMessage("error", "Conecte-se ao Internet Identity primeiro")
+    showMessage("error", "Please connect to Internet Identity first")
     return
   }
 
   if (!currentHash) {
-    showMessage("error", "Selecione um arquivo primeiro")
+    showMessage("error", "Please select a file first")
     return
   }
 
-  showLoading(true, "Registrando timestamp na blockchain ICP...")
+  showLoading(true, "Registering timestamp on ICP blockchain...")
 
   try {
-    // Simular chamada para o canister
+    // Simulate canister call
     await new Promise((resolve) => setTimeout(resolve, 3000))
 
-    // Criar registro de timestamp
+    // Create timestamp record
     const timestamp = {
       id: generateTimestampId(),
       hash: currentHash,
@@ -273,23 +274,23 @@ async function createTimestamp() {
       canisterId: icpData.canisterId,
     }
 
-    // Salvar timestamp
+    // Save timestamp
     timestamps.push(timestamp)
     saveTimestamps()
 
-    // Mostrar resultado
+    // Show result
     showTimestampResult(timestamp)
 
-    showMessage("success", "Timestamp registrado com sucesso na blockchain!")
+    showMessage("success", "Timestamp successfully registered on the blockchain!")
   } catch (error) {
-    showMessage("error", "Erro ao registrar timestamp na blockchain")
-    console.error("Erro no timestamp:", error)
+    showMessage("error", "Error registering timestamp on the blockchain")
+    console.error("Timestamp error:", error)
   } finally {
     showLoading(false)
   }
 }
 
-// Mostrar resultado do timestamp
+// Show timestamp result
 function showTimestampResult(timestamp) {
   const resultDiv = document.getElementById("timestampResult")
 
@@ -297,16 +298,16 @@ function showTimestampResult(timestamp) {
     <div class="timestamp-success">
       <div class="success-header">
         <i class="fas fa-check-circle"></i>
-        <h3>Timestamp Registrado com Sucesso!</h3>
+        <h3>Timestamp Successfully Registered!</h3>
       </div>
       
       <div class="timestamp-details">
         <div class="detail-row">
-          <label>ID do Timestamp:</label>
+          <label>Timestamp ID:</label>
           <span class="monospace">${timestamp.id}</span>
         </div>
         <div class="detail-row">
-          <label>Hash SHA-256:</label>
+          <label>SHA-256 Hash:</label>
           <span class="monospace hash-display">${timestamp.hash}</span>
         </div>
         <div class="detail-row">
@@ -314,11 +315,11 @@ function showTimestampResult(timestamp) {
           <span class="monospace">${timestamp.principal}</span>
         </div>
         <div class="detail-row">
-          <label>Arquivo:</label>
+          <label>File:</label>
           <span>${timestamp.filename} (${formatFileSize(timestamp.filesize)})</span>
         </div>
         <div class="detail-row">
-          <label>Data/Hora:</label>
+          <label>Date/Time:</label>
           <span>${formatTimestamp(timestamp.timestamp)}</span>
         </div>
         <div class="detail-row">
@@ -334,18 +335,18 @@ function showTimestampResult(timestamp) {
       <div class="timestamp-actions">
         <button class="btn btn-primary" onclick="copyTimestampId('${timestamp.id}')">
           <i class="fas fa-copy"></i>
-          Copiar ID
+          Copy ID
         </button>
         <button class="btn btn-secondary" onclick="downloadCertificate('${timestamp.id}')">
           <i class="fas fa-download"></i>
-          Baixar Certificado
+          Download Certificate
         </button>
       </div>
       
       <div class="blockchain-proof">
-        <h4><i class="fas fa-shield-alt"></i> Prova Blockchain</h4>
-        <p>Este documento foi registrado permanentemente na blockchain do Internet Computer. 
-        O hash, timestamp e sua identidade foram gravados de forma imutável no canister 
+        <h4><i class="fas fa-shield-alt"></i> Blockchain Proof</h4>
+        <p>This document was permanently recorded on the Internet Computer blockchain.
+        The hash, timestamp, and your identity were immutably stored in the canister
         <code>${timestamp.canisterId}</code>.</p>
       </div>
     </div>
@@ -355,47 +356,47 @@ function showTimestampResult(timestamp) {
   resultDiv.scrollIntoView({ behavior: "smooth" })
 }
 
-// Verificar timestamp existente
+// Verify existing timestamp
 async function verifyTimestamp() {
   const hash = document.getElementById("verifyHash").value.trim()
 
   if (!hash) {
-    showMessage("error", "Digite o hash do documento")
+    showMessage("error", "Please enter the document hash")
     return
   }
 
   if (hash.length !== 64) {
-    showMessage("error", "Hash SHA-256 deve ter 64 caracteres")
+    showMessage("error", "SHA-256 hash must be 64 characters")
     return
   }
 
-  showLoading(true, "Verificando na blockchain...")
+  showLoading(true, "Verifying on the blockchain...")
 
   try {
-    // Simular verificação na blockchain
+    // Simulate blockchain verification
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Buscar timestamp
+    // Search timestamp
     const timestamp = timestamps.find((t) => t.hash === hash)
     const resultDiv = document.getElementById("verificationResult")
 
     if (timestamp) {
       resultDiv.innerHTML = `
         <div class="verification-success">
-          <h4><i class="fas fa-check-circle"></i> Documento Verificado!</h4>
+          <h4><i class="fas fa-check-circle"></i> Document Verified!</h4>
           <div class="verification-details">
-            <p><strong>Arquivo:</strong> ${timestamp.filename}</p>
-            <p><strong>Registrado em:</strong> ${formatTimestamp(timestamp.timestamp)}</p>
+            <p><strong>File:</strong> ${timestamp.filename}</p>
+            <p><strong>Registered on:</strong> ${formatTimestamp(timestamp.timestamp)}</p>
             <p><strong>Principal:</strong> <code>${timestamp.principal}</code></p>
             <p><strong>Block Height:</strong> ${timestamp.blockHeight}</p>
             <p><strong>ID:</strong> <code>${timestamp.id}</code></p>
           </div>
           <div class="verification-badges">
             <span class="badge badge-success">
-              <i class="fas fa-shield-alt"></i> Autêntico
+              <i class="fas fa-shield-alt"></i> Authentic
             </span>
             <span class="badge badge-info">
-              <i class="fas fa-blockchain"></i> Blockchain ICP
+              <i class="fas fa-blockchain"></i> ICP Blockchain
             </span>
           </div>
         </div>
@@ -404,14 +405,14 @@ async function verifyTimestamp() {
     } else {
       resultDiv.innerHTML = `
         <div class="verification-error">
-          <h4><i class="fas fa-times-circle"></i> Documento Não Encontrado</h4>
-          <p>O hash informado não foi encontrado na blockchain do Internet Computer.</p>
+          <h4><i class="fas fa-times-circle"></i> Document Not Found</h4>
+          <p>The provided hash was not found on the Internet Computer blockchain.</p>
           <div class="verification-tips">
-            <h5>Verifique se:</h5>
+            <h5>Check that:</h5>
             <ul>
-              <li>O hash foi copiado corretamente</li>
-              <li>O documento foi registrado neste cartório</li>
-              <li>Não há espaços extras no hash</li>
+              <li>The hash was copied correctly</li>
+              <li>The document was registered in this notary</li>
+              <li>There are no extra spaces in the hash</li>
             </ul>
           </div>
         </div>
@@ -421,25 +422,25 @@ async function verifyTimestamp() {
 
     resultDiv.style.display = "block"
   } catch (error) {
-    showMessage("error", "Erro na verificação. Tente novamente.")
-    console.error("Erro na verificação:", error)
+    showMessage("error", "Verification error. Please try again.")
+    console.error("Verification error:", error)
   } finally {
     showLoading(false)
   }
 }
 
-// Navegação entre seções
+// Section navigation
 function showSection(sectionId) {
-  // Esconder todas as seções
+  // Hide all sections
   document.querySelectorAll(".section").forEach((section) => {
     section.classList.remove("active")
   })
 
-  // Mostrar seção selecionada
+  // Show selected section
   document.getElementById(sectionId).classList.add("active")
 }
 
-// Atualizar link ativo na navegação
+// Update active navigation link
 function updateActiveNavLink(activeLink) {
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.classList.remove("active")
@@ -447,7 +448,7 @@ function updateActiveNavLink(activeLink) {
   activeLink.classList.add("active")
 }
 
-// Utilitários
+// Utilities
 function generateTimestampId() {
   const timestamp = Date.now().toString(36)
   const random = Math.random().toString(36).substring(2, 8)
@@ -464,7 +465,7 @@ function formatFileSize(bytes) {
 
 function formatTimestamp(isoString) {
   const date = new Date(isoString)
-  return date.toLocaleString("pt-BR", {
+  return date.toLocaleString("en-US", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -476,21 +477,21 @@ function formatTimestamp(isoString) {
 
 function copyTimestampId(id) {
   navigator.clipboard.writeText(id).then(() => {
-    showMessage("success", "ID do timestamp copiado!")
+    showMessage("success", "Timestamp ID copied!")
   })
 }
 
 function downloadCertificate(id) {
   const timestamp = timestamps.find((t) => t.id === id)
   if (timestamp) {
-    // Simular download do certificado
-    showMessage("info", `Download do certificado ${id} iniciado`)
-    // Aqui seria implementada a geração real do PDF
+    // Simulate certificate download
+    showMessage("info", `Certificate download for ${id} started`)
+    // Real PDF generation would be implemented here
   }
 }
 
-// Mostrar loading
-function showLoading(show, message = "Processando...") {
+// Show loading
+function showLoading(show, message = "Processing...") {
   const overlay = document.getElementById("loadingOverlay")
   if (show) {
     overlay.querySelector("p").textContent = message
@@ -500,12 +501,12 @@ function showLoading(show, message = "Processando...") {
   }
 }
 
-// Mostrar mensagem
+// Show message
 function showMessage(type, message) {
-  // Remover mensagens existentes
+  // Remove existing messages
   document.querySelectorAll(".message").forEach((msg) => msg.remove())
 
-  // Criar nova mensagem
+  // Create new message
   const messageDiv = document.createElement("div")
   messageDiv.className = `message ${type}`
 
@@ -523,18 +524,18 @@ function showMessage(type, message) {
     <span>${message}</span>
   `
 
-  // Inserir no topo da seção ativa
+  // Insert at top of active section
   const activeSection = document.querySelector(".section.active")
   const container = activeSection.querySelector(".container")
   container.insertBefore(messageDiv, container.firstChild)
 
-  // Remover após 5 segundos
+  // Remove after 5 seconds
   setTimeout(() => {
     messageDiv.remove()
   }, 5000)
 }
 
-// Salvar e carregar dados
+// Save and load data
 function saveTimestamps() {
   localStorage.setItem("icp_timestamps", JSON.stringify(timestamps))
 }
@@ -546,7 +547,7 @@ function loadStoredData() {
   }
 }
 
-// Adicionar estilos CSS dinâmicos
+// Add dynamic CSS styles
 const additionalStyles = `
   .message {
     padding: 1rem;
@@ -586,168 +587,5 @@ const additionalStyles = `
     text-align: left;
   }
 
-  .success-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    color: var(--success-color);
-  }
+  .success
 
-  .success-header i {
-    font-size: 2rem;
-  }
-
-  .timestamp-details {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-  }
-
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #e9ecef;
-  }
-
-  .detail-row:last-child {
-    border-bottom: none;
-  }
-
-  .detail-row label {
-    font-weight: 600;
-    color: var(--dark-color);
-  }
-
-  .monospace {
-    font-family: 'Courier New', monospace;
-    background: #e9ecef;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-
-  .hash-display {
-    word-break: break-all;
-    max-width: 300px;
-  }
-
-  .timestamp-actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-  }
-
-  .blockchain-proof {
-    background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-    padding: 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
-  }
-
-  .blockchain-proof h4 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .verification-success,
-  .verification-error {
-    text-align: center;
-  }
-
-  .verification-details {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-    text-align: left;
-  }
-
-  .verification-badges {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 1rem;
-  }
-
-  .badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .badge-success {
-    background: #d4edda;
-    color: var(--success-color);
-    border: 1px solid var(--success-color);
-  }
-
-  .badge-info {
-    background: #d1ecf1;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-  }
-
-  .verification-tips ul {
-    text-align: left;
-    margin-left: 1rem;
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .detail-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .hash-display {
-      max-width: 100%;
-    }
-
-    .timestamp-actions {
-      flex-direction: column;
-    }
-
-    .verification-badges {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-`
-
-// Adicionar estilos ao documento
-const styleSheet = document.createElement("style")
-styleSheet.textContent = additionalStyles
-document.head.appendChild(styleSheet)
-
-// Exportar funções para uso global
-window.showSection = showSection
-window.connectInternetIdentity = connectInternetIdentity
-window.createTimestamp = createTimestamp
-window.verifyTimestamp = verifyTimestamp
-window.clearFile = clearFile
-window.copyHash = copyHash
-window.copyTimestampId = copyTimestampId
-window.downloadCertificate = downloadCertificate
