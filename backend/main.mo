@@ -8,13 +8,13 @@ import Text "mo:base/Text";
 import Iter "mo:base/Iter";
 
 
-actor CartorioBackend {
+actor DigitalNotaryBackend {
 
   // =================================================================================
-  // TIPOS DE DADOS (DATA MODELS)
+  // DATA MODELS
   // =================================================================================
 
-  // Define a estrutura para cada registro de timestamp.
+  // Defines the structure for each timestamp record.
   public type TimestampRecord = {
     id : Nat;
     owner : Principal;
@@ -23,33 +23,33 @@ actor CartorioBackend {
     created_at : Time.Time
   };
 
-  // Define os tipos que serão usados para armazenar os dados de forma estável.
+  // Defines types to store stable data.
   type StableUserTimestamps = [(Principal, [TimestampRecord])];
   type StableHashToIdMap = [(Text, Nat)];
 
-  // Estado do canister durante a execução. Contém HashMaps para acesso eficiente.
+  // Canister state during execution. Contains HashMaps for efficient access.
   var user_timestamps : HashMap.HashMap<Principal, [TimestampRecord]> = HashMap.HashMap<Principal, [TimestampRecord]>(0, Principal.equal, Principal.hash);
   var hash_to_record_id : HashMap.HashMap<Text, Nat> = HashMap.HashMap<Text, Nat>(0, Text.equal, Text.hash);
   var next_record_id : Nat = 0;
 
   // =================================================================================
-  // PERSISTÊNCIA DE DADOS (UPGRADE HOOKS)
+  // DATA PERSISTENCE (UPGRADE HOOKS)
   // =================================================================================
 
-  // Variáveis estáveis para armazenar os dados durante o upgrade do canister.
+  // Stable variables to store data during canister upgrade.
   stable var stable_user_timestamps : StableUserTimestamps = [];
   stable var stable_hash_to_id_map : StableHashToIdMap = [];
   stable var stable_next_record_id : Nat = 0;
 
-  // Função de sistema 'preupgrade': executada automaticamente ANTES de um upgrade.
+  // System function 'preupgrade': automatically executed BEFORE an upgrade.
   system func preupgrade() {
     stable_user_timestamps := Iter.toArray(user_timestamps.entries());
     stable_hash_to_id_map := Iter.toArray(hash_to_record_id.entries());
     stable_next_record_id := next_record_id
   };
 
-  // Função de sistema 'postupgrade': executada automaticamente DEPOIS de um upgrade.
-  // CORREÇÃO: Itera diretamente sobre o array, sem chamar `.iter()`.
+  // System function 'postupgrade': automatically executed AFTER an upgrade.
+  // FIX: Iterates directly over the array, without calling `.iter()`.
   system func postupgrade() {
     user_timestamps := HashMap.HashMap<Principal, [TimestampRecord]>(0, Principal.equal, Principal.hash);
     hash_to_record_id := HashMap.HashMap<Text, Nat>(0, Text.equal, Text.hash);
@@ -65,16 +65,16 @@ actor CartorioBackend {
   };
 
   // =================================================================================
-  // FUNÇÕES DE ATUALIZAÇÃO (UPDATE CALLS)
+  // UPDATE FUNCTIONS (UPDATE CALLS)
   // =================================================================================
 
   public shared (msg) func createTimestamp(filename : Text, file_hash : Text) : async Result.Result<Nat, Text> {
     if (file_hash.size() != 64) {
-      return #err("O hash SHA-256 deve ter 64 caracteres.")
+      return #err("SHA-256 hash must be 64 characters long.")
     };
 
     if (hash_to_record_id.get(file_hash) != null) {
-      return #err("Este arquivo já possui um timestamp registrado.")
+      return #err("This file already has a registered timestamp.")
     };
 
     let caller = msg.caller;
@@ -106,7 +106,7 @@ actor CartorioBackend {
   };
 
   // =================================================================================
-  // FUNÇÕES DE CONSULTA (QUERY CALLS)
+  // QUERY FUNCTIONS (QUERY CALLS)
   // =================================================================================
 
   public query func getUserTimestamps(user : Principal) : async [TimestampRecord] {
