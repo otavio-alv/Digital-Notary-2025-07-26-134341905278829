@@ -7,9 +7,9 @@
     }
   },
   "cartorio": {
-    "name": "Cartório Digital",
+    "name": "Digital Notary",
     "version": "1.0.0",
-    "description": "Sistema seguro para emissão e autenticação de documentos oficiais",
+    "description": "Secure system for issuing and authenticating official documents",
     "features": {
       "document_emission": true,
       "document_verification": true,
