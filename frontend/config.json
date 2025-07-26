@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "canisters": {
+    "frontend": {
+      "type": "assets",
+      "source": ["src/", "index.html", "style.css", "script.js", "assets/"]
+    }
+  },
+  "cartorio": {
+    "name": "Cartório Digital",
+    "version": "1.0.0",
+    "description": "Sistema seguro para emissão e autenticação de documentos oficiais",
+    "features": {
+      "document_emission": true,
+      "document_verification": true,
+      "blockchain_security": true,
+      "mobile_responsive": true
+    },
+    "security": {
+      "encryption": "256-bit",
+      "hash_algorithm": "SHA-256",
+      "ssl_certificate": true
+    }
+  }
+}
