@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello World</title>
+    <style>
+      body {
+        padding: 10px 60px;
+        font-family: sans-serif;
+        font-size: 1.5rem;
+      }
+      #greeting {
+        margin: 10px auto;
+        padding: 10px 60px;
+        border: 1px solid #222;
+      }
+      #greeting:empty {
+        display: none;
+      }
+    </style>
+    <script type="module">
+      // Import the backend actor<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICP Digital Notary - Decentralized Notary Services</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-infinity"></i>
+                <h1>ICP Digital Notary</h1>
+                <span class="beta-badge">BETA</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#timestamping" class="nav-link">Timestamping</a>
+                <a href="#assinatura" class="nav-link">Digital Signature</a>
+                <a href="#contratos" class="nav-link">Contracts</a>
+                <a href="#procuracoes" class="nav-link">Power of Attorney</a>
+            </nav>
+            <div class="auth-section">
+                <button id="connectBtn" class="btn btn-primary">
+                    <i class="fas fa-plug"></i>
+                    Connect Internet Identity
+                </button>
+                <div id="userInfo" class="user-info" style="display: none;">
+                    <span class="principal-id"></span>
+                    <button id="disconnectBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section id="home" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h2>Decentralized Digital Notary</h2>
+                        <p>Modern notary services built on the Internet Computer. Eliminate bureaucracy, reduce costs, and have sovereign control over your documents with blockchain security.</p>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <i class="fas fa-infinity"></i>
+                                <span>Perpetual Storage</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-gas-pump"></i>
+                                <span>Reverse Gas (No Fees)</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Internet Identity</span>
+                            </div>
+                        </div>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="showSection('timestamping')">
+                                <i class="fas fa-clock"></i>
+                                Start Timestamping
+                            </button>
+                            <button class="btn btn-secondary" onclick="connectInternetIdentity()">
+                                <i class="fas fa-id-card"></i>
+                                Connect Identity
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="blockchain-visual">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block active"></div>
+                            <div class="connection"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card primary">
+                        <div class="service-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Document Timestamping</h3>
+                        <p>Register the "digital fingerprint" of any file with irrefutable proof of existence and integrity.</p>
+                        <div class="service-status available">
+                            <i class="fas fa-check-circle"></i>
+                            Available (MVP)
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-signature"></i>
+                        </div>
+                        <h3>Digital Signature</h3>
+                        <p>Sign documents with cryptographic security using Internet Identity.</p>
+                        <div class="service-status coming-soon">
+                            <i class="fas fa-clock"></i>
+                            In Development
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Smart Contracts</h3>
+                        <p>Contract templates with automated business logic.</p>
+                        <div class="service-status coming-soon">
+                            <i class="fas fa-clock"></i>
+                            In Development
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Digital Power of Attorney</h3>
+                        <p>Permission management system with defined scope and duration.</p>
+                        <div class="service-status coming-soon">
+                            <i class="fas fa-clock"></i>
+                            In Development
+                        </div>
+                    </div>
+                </div>
+
+                <div class="icp-advantages">
+                    <h3>Why the Internet Computer?</h3>
+                    <div class="advantages-grid">
+                        <div class="advantage">
+                            <i class="fas fa-id-badge"></i>
+                            <h4>Internet Identity</h4>
+                            <p>Secure, passwordless authentication based on public key cryptography.</p>
+                        </div>
+                        <div class="advantage">
+                            <i class="fas fa-coins"></i>
+                            <h4>Reverse Gas Model</h4>
+                            <p>Users don't pay fees - the canister absorbs computation costs.</p>
+                        </div>
+                        <div class="advantage">
+                            <i class="fas fa-database"></i>
+                            <h4>On-Chain Storage</h4>
+                            <p>Data lives permanently on the blockchain at a low cost.</p>
+                        </div>
+                        <div class="advantage">
+                            <i class="fas fa-globe"></i>
+                            <h4>Native Web3</h4>
+                            <p>Frontend served directly from the blockchain, fully decentralized.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timestamping" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-clock"></i> Document Timestamping</h2>
+                    <p>Register the proof of existence and integrity of any digital file.</p>
+                    <div class="mvp-badge">
+                        <i class="fas fa-star"></i>
+                        MVP - Core Functionality
+                    </div>
+                </div>
+
+                <div class="timestamping-container">
+                    <div class="upload-section">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3>Drag your file here</h3>
+                            <p>or click to select</p>
+                            <input type="file" id="fileInput" hidden>
+                            <div class="supported-formats">
+                                <span>Supports: PDF, DOC, TXT, IMG, etc.</span>
+                            </div>
+                        </div>
+
+                        <div id="fileInfo" class="file-info" style="display: none;">
+                            <div class="file-details">
+                                <div class="file-icon">
+                                    <i class="fas fa-file"></i>
+                                </div>
+                                <div class="file-data">
+                                    <h4 id="fileName"></h4>
+                                    <p id="fileSize"></p>
+                                    <p id="fileType"></p>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary btn-small" onclick="clearFile()">
+                                <i class="fas fa-times"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hash-section">
+                        <div class="hash-display">
+                            <label>File's SHA-256 Hash:</label>
+                            <div class="hash-value" id="hashValue">
+                                <span class="placeholder">Hash will be generated after selecting a file</span>
+                            </div>
+                            <button class="btn btn-secondary btn-small" id="copyHashBtn" onclick="copyHash()" style="display: none;">
+                                <i class="fas fa-copy"></i>
+                                Copy Hash
+                            </button>
+                        </div>
+
+                        <div class="timestamp-action">
+                            <button class="btn btn-primary btn-large" id="timestampBtn" onclick="createTimestamp()" disabled>
+                                <i class="fas fa-clock"></i>
+                                Register Timestamp on the Blockchain
+                            </button>
+                            <p class="action-note">
+                                <i class="fas fa-info-circle"></i>
+                                The record will be permanent and immutable on the Internet Computer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="timestampResult" class="timestamp-result" style="display: none;">
+                    </div>
+
+                <div class="verification-section">
+                    <h3>Verify Existing Timestamp</h3>
+                    <div class="verification-form">
+                        <div class="form-group">
+                            <label for="verifyHash">Document Hash:</label>
+                            <input type="text" id="verifyHash" placeholder="Paste the document's SHA-256 hash">
+                        </div>
+                        <button class="btn btn-secondary" onclick="verifyTimestamp()">
+                            <i class="fas fa-search"></i>
+                            Verify on Blockchain
+                        </button>
+                    </div>
+                    <div id="verificationResult" class="verification-result" style="display: none;">
+                        </div>
+                </div>
+
+                <div class="how-it-works">
+                    <h3>How Does Timestamping Work?</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>File Upload</h4>
+                                <p>Select any digital file you want to register.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Hash Generation</h4>
+                                <p>The system generates a unique SHA-256 hash of your file.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Blockchain Registration</h4>
+                                <p>Hash + Principal + Timestamp are permanently recorded on the ICP.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Irrefutable Proof</h4>
+                                <p>You have cryptographic proof of existence and integrity.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assinatura" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-signature"></i> Digital Signature Recognition</h2>
+                    <p>Sign documents with cryptographic security using Internet Identity.</p>
+                    <div class="coming-soon-badge">
+                        <i class="fas fa-hammer"></i>
+                        In Development
+                    </div>
+                </div>
+
+                <div class="feature-preview">
+                    <div class="preview-content">
+                        <h3>Planned Features:</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i> Internet Identity-based signing</li>
+                            <li><i class="fas fa-check"></i> On-chain record of all consents</li>
+                            <li><i class="fas fa-check"></i> Elimination of in-person signature notarization</li>
+                            <li><i class="fas fa-check"></i> Cryptographic verification of authenticity</li>
+                            <li><i class="fas fa-check"></i> Immutable history of signatures</li>
+                        </ul>
+                    </div>
+                    <div class="preview-mockup">
+                        <div class="mockup-window">
+                            <div class="mockup-header">
+                                <div class="mockup-buttons">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span>Digital Signature</span>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="signature-area">
+                                    <i class="fas fa-file-signature"></i>
+                                    <p>Document ready for signing</p>
+                                    <button class="btn btn-primary" disabled>
+                                        <i class="fas fa-signature"></i>
+                                        Sign with Internet Identity
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contratos" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-contract"></i> Smart Contracts</h2>
+                    <p>Contract templates with automated business logic.</p>
+                    <div class="coming-soon-badge">
+                        <i class="fas fa-hammer"></i>
+                        In Development
+                    </div>
+                </div>
+
+                <div class="contracts-preview">
+                    <div class="contract-templates">
+                        <h3>Available Templates:</h3>
+                        <div class="templates-grid">
+                            <div class="template-card">
+                                <i class="fas fa-home"></i>
+                                <h4>Rental Agreement</h4>
+                                <p>Payment tracking, automatic notifications, and clause execution.</p>
+                                <span class="template-status">Coming Soon</span>
+                            </div>
+                            <div class="template-card">
+                                <i class="fas fa-handshake"></i>
+                                <h4>Service Agreement</h4>
+                                <p>Service contracts with milestones and automatic payments.</p>
+                                <span class="template-status">Coming Soon</span>
+                            </div>
+                            <div class="template-card">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h4>Purchase and Sale Agreement</h4>
+                                <p>Purchase and sale agreements with automatic escrow.</p>
+                                <span class="template-status">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="smart-features">
+                        <h3>Smart Features:</h3>
+                        <div class="features-list">
+                            <div class="feature-item">
+                                <i class="fas fa-robot"></i>
+                                <div>
+                                    <h4>Automatic Execution</h4>
+                                    <p>Clauses are executed automatically when conditions are met.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-bell"></i>
+                                <div>
+                                    <h4>Notifications</h4>
+                                    <p>Automatic alerts for deadlines, payments, and obligations.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <h4>Secure Escrow</h4>
+                                    <p>Secure holding of funds until conditions are met.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="procuracoes" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-shield"></i> Digital Power of Attorney</h2>
+                    <p>Permission management system with defined scope and duration.</p>
+                    <div class="coming-soon-badge">
+                        <i class="fas fa-hammer"></i>
+                        In Development
+                    </div>
+                </div>
+
+                <div class="procuration-preview">
+                    <div class="permission-system">
+                        <h3>Permission System:</h3>
+                        <div class="permission-flow">
+                            <div class="flow-step">
+                                <div class="flow-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>Grantor</h4>
+                                <p>Grants specific permissions</p>
+                            </div>
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-icon">
+                                    <i class="fas fa-file-signature"></i>
+                                </div>
+                                <h4>Power of Attorney</h4>
+                                <p>Defines scope and duration</p>
+                            </div>
+                            <div class="flow-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <h4>Proxy</h4>
+                                <p>Executes authorized actions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="procuration-features">
+                        <h3>Advanced Features:</h3>
+                        <div class="features-grid">
+                            <div class="feature-box">
+                                <i class="fas fa-clock"></i>
+                                <h4>Defined Term</h4>
+                                <p>Powers of attorney with automatic expiration dates.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fas fa-list"></i>
+                                <h4>Limited Scope</h4>
+                                <p>Specific permissions for designated actions.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fas fa-ban"></i>
+                                <h4>Instant Revocation</h4>
+                                <p>Immediate cancellation of active powers of attorney.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fas fa-history"></i>
+                                <h4>Full Audit Trail</h4>
+                                <p>Immutable history of all actions performed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ICP Digital Notary</h3>
+                    <p>Decentralized notary services on the Internet Computer.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <p><i class="fas fa-infinity"></i> Internet Computer</p>
+                    <p><i class="fas fa-id-badge"></i> Internet Identity</p>
+                    <p><i class="fas fa-cube"></i> Motoko/Rust</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Project Status</h4>
+                    <p><i class="fas fa-check-circle text-success"></i> Timestamping (MVP)</p>
+                    <p><i class="fas fa-clock text-warning"></i> Digital Signature</p>
+                    <p><i class="fas fa-clock text-warning"></i> Smart Contracts</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ICP Digital Notary. Open Source project built on the Internet Computer.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="blockchain-loader">
+                <div class="block-loader"></div>
+                <div class="block-loader"></div>
+                <div class="block-loader"></div>
+            </div>
+            <p>Processing on the Blockchain...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+      import { backend } from 'declarations/backend';
+      // Add an event listener to the form
+      document.querySelector('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        // Get the name from the input field
+        const name = document.getElementById('name').value.toString();
+        // Calling the method "greet" on the backend actor with the name
+        const greeting = await backend.greet(name);
+        // Display the greeting returned by the backend actor
+        document.getElementById('greeting').innerText = greeting;
+      });
+    </script>
+  </head>
+  <body>
+    <main>
+      <form>
+        <label for="name">Enter your name: &nbsp;</label>
+        <input id="name" alt="Name" type="text" />
+        <button type="submit">Click Me!</button>
+      </form>
+      <section id="greeting"></section>
+    </main>
+  </body>
+</html>
